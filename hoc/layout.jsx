@@ -1,12 +1,13 @@
 import React from "react";
 
+import Header from "../components/header";
+import NavigationBar from "../components/navigation_bar";
+
 const Layout = ({ children }) => {
     return (
-        <div className="con">
-            <header>
-                <h1 className="text-white text-center bg-black">Header</h1>
-            </header>
-            <nav className="navigation">navigator</nav>
+        <div>
+            <Header />
+            <NavigationBar />
             <main className="main">{children}</main>
         </div>
     );
