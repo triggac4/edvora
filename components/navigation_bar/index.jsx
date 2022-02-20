@@ -4,7 +4,7 @@ import NavButton from "./nav_button";
 const NavigationBar = () => {
     return (
         <nav className="flex bg-black-light px-5 py-3 items-center justify-between text-white">
-            <div className="flex text-xs gap-2">
+            <div className="flex text-xs gap-4">
                 <NavButton isActive>Nearest ride</NavButton>
                 <NavButton amount={5}>Upcoming ride</NavButton>
                 <NavButton amount={6}>Past ride</NavButton>

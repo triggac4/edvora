@@ -5,10 +5,10 @@ import NavigationBar from "../components/navigation_bar";
 
 const Layout = ({ children }) => {
     return (
-        <div>
+        <div className="flex flex-col h-screen">
             <Header />
             <NavigationBar />
-            <main className="main">{children}</main>
+            <main className="bg-black-light flex-grow ">{children}</main>
         </div>
     );
 };
