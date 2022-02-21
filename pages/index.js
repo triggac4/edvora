@@ -24,6 +24,9 @@ export async function getServerSideProps() {
         const userResponse = await fetch("http://localhost:3000/api/user-info");
         const rideResponse = await fetch("http://localhost:3000/api/rides");
 
+        if (userResponse.status >= 300 || rideResponse.status >= 300) {
+            throw Error("an error occurred could not be found");
+        }
         const user = await userResponse.json();
         const rides = await rideResponse.json();
 
@@ -37,7 +40,8 @@ export async function getServerSideProps() {
     } catch (e) {
         return {
             props: {
-                error: { e },
+                user: {},
+                error: e.message,
             },
         };
     }
