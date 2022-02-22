@@ -14,20 +14,28 @@ export default function Home({
 }) {
     const [filter, setFilter] = useState({ state: "All", city: "All" });
     const [sorted, setSorted] = useState([]);
-    const [whatRide, setWhatRide] = useState("near_by");
+    const [whatRide, setWhatRide] = useState(nearBy);
     const upComingRides = [];
     const pastRides = [];
     useEffect(() => {
         setSorted(Rides.nearBySort(rides, station_code));
-    }, [rides, sorted, station_code]);
+    }, [rides, station_code]);
     rides.forEach((ride) => {
         if (Rides.dateIsGreater(ride.date)) upComingRides.push(ride);
         else pastRides.push(ride);
     });
 
-    const ridesFiltered = Rides.filterRides(sorted, filter).map((ride, i) => {
-        return <RidesComponent key={i} {...ride} />;
-    });
+    const whatDisplay =
+        whatRide === upComing
+            ? upComingRides
+            : whatRide === past
+            ? pastRides
+            : sorted;
+    const ridesFiltered = Rides.filterRides(whatDisplay, filter).map(
+        (ride, i) => {
+            return <RidesComponent key={i} {...ride} />;
+        }
+    );
     const imgSrc = !(profile_key == "url") && profile_key;
     return error ? (
         <h2>something went wrong</h2>
@@ -37,6 +45,7 @@ export default function Home({
             imgSrc={imgSrc}
             setFilter={setFilter}
             length={{ upComing: upComingRides.length, past: pastRides.length }}
+            setWhatRide={setWhatRide}
         >
             {ridesFiltered}
         </Layout>
