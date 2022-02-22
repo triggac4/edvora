@@ -20,8 +20,9 @@ const Filter = ({ onChange }) => {
                         id="state"
                         onClick={(e) => e.stopPropagation()}
                     >
+                        <option value="All">All</option>
                         <option value="Maharashtra">Maharashtra</option>
-                        <option value="sontiala">sontiala</option>
+                        <option value="sontiala">Sontiala</option>
                     </select>
                     <label htmlFor="city" onClick={(e) => e.stopPropagation()}>
                         city:
@@ -33,6 +34,7 @@ const Filter = ({ onChange }) => {
                         id="city"
                         onClick={(e) => e.stopPropagation()}
                     >
+                        <option value="All">All</option>
                         <option value="Panvel">Panvel</option>
                         <option value="Serinla">Serinla</option>
                     </select>
