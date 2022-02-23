@@ -54,8 +54,12 @@ export default function Home({
 
 export async function getServerSideProps() {
     try {
-        const userResponse = await fetch("http://localhost:3000/api/user-info");
-        const rideResponse = await fetch("http://localhost:3000/api/rides");
+        const userResponse = await fetch(
+            "https://git.heroku.com/edvora30555.git/api/user-info"
+        );
+        const rideResponse = await fetch(
+            "https://git.heroku.com/edvora30555.git/api/rides"
+        );
 
         if (userResponse.status >= 300 || rideResponse.status >= 300) {
             throw Error("an error occurred could not be found");
