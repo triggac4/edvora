@@ -55,10 +55,10 @@ export default function Home({
 export async function getServerSideProps() {
     try {
         const userResponse = await fetch(
-            "https://git.heroku.com/edvora30555.com/api/user-info"
+            "https://edvora30555.herokuapp.com//api/user-info"
         );
         const rideResponse = await fetch(
-            "https://git.heroku.com/edvora30555.com/api/rides"
+            "https://edvora30555.herokuapp.com//api/rides"
         );
 
         if (userResponse.status >= 300 || rideResponse.status >= 300) {
