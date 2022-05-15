@@ -5,33 +5,27 @@ import Header from "../components/header";
 import NavigationBar from "../components/navigation_bar";
 import RidesComponent from "../components/rides_component";
 import { setAllLocation } from "../features/location/action";
-import { setAllRide } from "../features/rides/action";
+import { pages, setAllRide } from "../features/rides/action";
 import Rides from "../utils/ridesSorter";
 
-export const nearBy = "near_by";
-export const upComing = "up_coming";
-export const past = "past";
 
 const Layout = ({ user: { url, name, station_code }, rides }) => {
   const filterState = useSelector((state) => state.location.selectedState);
   const filterCity = useSelector((state) => state.location.selectedCity);
   const rideState= useSelector((state) => state.ride);
-  const dispatch = useDispatch();
+  const currentPage=useSelector((state) => state.ride.CURRENT_PAGE);
   const rideDispatch = useDispatch();
 
-  //const [filter, setFilter] = useState({ state: "All", city: "All" });
-  //const [sorted, setSorted] = useState([]);
-  const [whatRide, setWhatRide] = useState(nearBy);
-  const upComingRides = [];
-  const pastRides = [];
+
   useEffect(() => {
     rideDispatch(setAllRide(rides, station_code));
   }, [rides, rideDispatch, station_code]);
 
+
   const whatDisplay =
-    whatRide === upComing
+    currentPage === pages.upComing
       ? rideState.UPCOMING_RIDE
-      : whatRide === past
+      : currentPage === pages.past
       ? rideState.PAST_RIDE
       : rideState.NEAREST_RIDE;
   const ridesFiltered = Rides.filterRides(whatDisplay, {
@@ -45,9 +39,7 @@ const Layout = ({ user: { url, name, station_code }, rides }) => {
   return (
     <div className="flex flex-col h-screen">
       <Header imgSrc={imgSrc} name={name} />
-      <NavigationBar
-        setWhatRide={setWhatRide}
-      />
+      <NavigationBar/>
       <main className="bg-black-light flex-grow ">{ridesFiltered}</main>
     </div>
   );

@@ -1,11 +1,15 @@
-import { ALL_RIDE, NEAREST_RIDE, PAST_RIDE, UPCOMING_RIDE } from "./action";
+import { ALL_RIDE, NEAREST_RIDE, PAST_RIDE, UPCOMING_RIDE,CHANGE_PAGE,pages } from "./action";
+
 const initialState = {
   allRide: [],
   NEAREST_RIDE: [],
   PAST_RIDE: [],
   UPCOMING_RIDE: [],
-
+  CURRENT_PAGE:pages.nearBy,
 };
+
+
+
 
 export const reducer=(state=initialState, action)=>{
     switch (action.type) {
@@ -29,6 +33,12 @@ export const reducer=(state=initialState, action)=>{
             ...state,
             UPCOMING_RIDE: action.payload,
         };
+        case CHANGE_PAGE:
+        return {
+            ...state,
+            CURRENT_PAGE: action.payload,
+        };
+
         default:
         return state;
     }
