@@ -3,83 +3,44 @@ import styles from "../styles/Home.module.css";
 import Layout from "../hoc/layout";
 import RidesComponent from "../components/rides_component";
 import Rides from "../utils/ridesSorter";
+import { getRides, getUserInfo } from "../utils/apiCalls";
+import { Provider, useSelector, useDispatch } from "react-redux";
+import store from "../features";
 
 export const nearBy = "near_by";
 export const upComing = "up_coming";
 export const past = "past";
-export default function Home({
-    user: { profile_key, name, station_code },
-    rides,
-    error,
-}) {
-    const [filter, setFilter] = useState({ state: "All", city: "All" });
-    const [sorted, setSorted] = useState([]);
-    const [whatRide, setWhatRide] = useState(nearBy);
-    const upComingRides = [];
-    const pastRides = [];
-    useEffect(() => {
-        setSorted(Rides.nearBySort(rides, station_code));
-    }, [rides, station_code]);
-    rides.forEach((ride) => {
-        if (Rides.dateIsGreater(ride.date)) upComingRides.push(ride);
-        else pastRides.push(ride);
-    });
 
-    const whatDisplay =
-        whatRide === upComing
-            ? upComingRides
-            : whatRide === past
-            ? pastRides
-            : sorted;
-    const ridesFiltered = Rides.filterRides(whatDisplay, filter).map(
-        (ride, i) => {
-            return <RidesComponent key={i} {...ride} />;
-        }
-    );
-    const imgSrc = !(profile_key == "url") && profile_key;
-    return error ? (
-        <h2>something went wrong</h2>
-    ) : (
-        <Layout
-            name={name}
-            imgSrc={imgSrc}
-            setFilter={setFilter}
-            length={{ upComing: upComingRides.length, past: pastRides.length }}
-            setWhatRide={setWhatRide}
-        >
-            {ridesFiltered}
-        </Layout>
-    );
+export default function Home({ user, rides, error }) {
+  return error ? (
+    <h2>something went wrong</h2>
+  ) : (
+    <Provider store={store}>
+      <Layout user={user} rides={rides}/>
+    </Provider>
+  );
 }
 
 export async function getServerSideProps() {
-    try {
-        const userResponse = await fetch(
-            "https://edvora30555.herokuapp.com/api/user-info"
-        );
-        const rideResponse = await fetch(
-            "https://edvora30555.herokuapp.com/api/rides"
-        );
+  try {
+    const rides = await getRides();
+    const user = await getUserInfo();
 
-        if (userResponse.status >= 300 || rideResponse.status >= 300) {
-            throw Error("an error occurred could not be found");
-        }
-        const user = await userResponse.json();
-        const rides = await rideResponse.json();
-
-        return {
-            props: {
-                user,
-                rides,
-                error: false,
-            },
-        };
-    } catch (e) {
-        return {
-            props: {
-                user: {},
-                error: e.message,
-            },
-        };
-    }
+    return {
+      props: {
+        user,
+        rides,
+        error: false,
+      },
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      props: {
+        user: {},
+        rides: [],
+        error: e.message,
+      },
+    };
+  }
 }

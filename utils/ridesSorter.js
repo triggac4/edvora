@@ -15,11 +15,9 @@ class Rides {
     }
 
     static dateIsGreater(date) {
-        const today = Date.now();
-        console.log(today);
-        const checker = date - today;
-
-        return checker > 0;
+        const today = new Date().getTime();
+        const rideDate = new Date(date).getTime();
+        return rideDate>today;
     }
 
     static nearBySort(rides, station_code) {
