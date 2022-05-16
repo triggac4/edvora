@@ -15,7 +15,7 @@ export const setAllRide = (rides, station_code) => async (dispatch) => {
   const city = ["all"];
   const upcomingRides = [];
   const pastRides = [];
-  rides.forEach((ride) => {
+  nearestRides.forEach((ride) => {
     state.push(ride.state);
     city.push(ride.city);
     if (Rides.dateIsGreater(ride.date)) {

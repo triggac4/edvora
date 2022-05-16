@@ -12,6 +12,7 @@ const RidesComponent = ({
     map_url,
     state,
     city,
+    sortVal
 }) => {
     const date_str = new Date(date).toLocaleDateString();
     return (
@@ -31,7 +32,7 @@ const RidesComponent = ({
                     <RideInfo title={"Date"} value={date_str} />
                     <RideInfo
                         title={"Distance"}
-                        value={destination_station_code}
+                        value={sortVal}
                     />
                 </div>
             </div>

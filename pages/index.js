@@ -7,9 +7,6 @@ import { getRides, getUserInfo } from "../utils/apiCalls";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import store from "../features";
 
-export const nearBy = "near_by";
-export const upComing = "up_coming";
-export const past = "past";
 
 export default function Home({ user, rides, error }) {
   return error ? (
